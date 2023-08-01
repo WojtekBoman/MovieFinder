@@ -4,6 +4,7 @@ import { Movie } from '../../types/Movie';
 import { Card, Text } from 'react-native-paper';
 import { Colors } from '../../theme/colors';
 import { getMoviePoster } from '../../utils/imageUtils';
+import TextWithIcon from '../text/TextWithIcon';
 
 interface Props {
   item: Movie;
@@ -29,6 +30,10 @@ const MoviesListItem = ({ item, onPress, style }: Props) => {
         />
         <Card.Content style={styles.infoContainer}>
           <Text variant="titleLarge">{item.title}</Text>
+          <View style={styles.ratesContainer}>
+            <TextWithIcon iconName="star" text={item.vote_count.toString()} />
+            <TextWithIcon iconName="chart-bar" text={item.popularity.toString()} />
+          </View>
         </Card.Content>
       </View>
     </Card>
@@ -44,10 +49,12 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     flex: 0.6,
-    padding: 8,
+    justifyContent: 'space-between',
+    padding: 16,
   },
   innerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  ratesContainer: { alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between' },
 });
