@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { Searchbar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MoviesList from '../components/movies/MoviesList';
 import { useGetMoviesQuery } from '../store/apis/moviesApi';
@@ -11,11 +11,11 @@ const Home = () => {
 
   const { data } = useGetMoviesQuery(queryText);
 
+  console.log('data', data);
+
   return (
     <SafeAreaView style={styles.container}>
-      <TextInput
-        mode="outlined"
-        activeOutlineColor={Colors.primary}
+      <Searchbar
         style={styles.searchbar}
         placeholder="Find your movie"
         value={queryText}
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   searchbar: {
+    backgroundColor: Colors.primary,
     margin: 16,
   },
 });
