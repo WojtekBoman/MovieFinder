@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Movie } from '../../types/Movie';
+import { Movie, MovieDetails } from '../../types/Movie';
 import Config from 'react-native-config';
 import { ListResponse } from '../../types/ListResponse';
 
@@ -18,7 +18,11 @@ export const moviesApi = createApi({
       query: (queryText) => `/search/movie?query=${queryText}`,
       providesTags: ['Movie'],
     }),
+    getMovie: builder.query<MovieDetails, number>({
+      query: (id) => `/movie/${id}`,
+      providesTags: ['Movie'],
+    }),
   }),
 });
 
-export const { useGetMoviesQuery } = moviesApi;
+export const { useGetMoviesQuery, useGetMovieQuery } = moviesApi;

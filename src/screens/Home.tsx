@@ -1,3 +1,5 @@
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Searchbar, Text } from 'react-native-paper';
@@ -5,14 +7,22 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import MoviesList from '../components/movies/MoviesList';
 import { SEARCHBAR_TEXT_MAX_LENGTH } from '../constants/constants';
 import { useDebounce } from '../hooks/useDebounce';
+import { RootStackParamList } from '../navigation';
 import { useGetMoviesQuery } from '../store/apis/moviesApi';
 import { Colors } from '../theme/colors';
+import { Movie } from '../types/Movie';
+
+type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 const Home = () => {
+  const navigation = useNavigation<HomeNavigationProp>();
   const [queryText, setQueryText] = useState('');
   const debouncedQueryText = useDebounce<string>(queryText);
 
   const { data } = useGetMoviesQuery(debouncedQueryText);
+
+  const handleOnPressListItem = (item: Movie) =>
+    navigation.navigate('MovieDetails', { movieId: item.id });
 
   return (
     <SafeAreaView edges={['top', 'left', 'right']} style={styles.container}>
@@ -32,7 +42,7 @@ const Home = () => {
         <MoviesList
           listItemStyle={styles.listItem}
           data={data?.results}
-          onPressListItem={(item) => console.log('item', item)}
+          onPressListItem={handleOnPressListItem}
         />
       ) : null}
     </SafeAreaView>
