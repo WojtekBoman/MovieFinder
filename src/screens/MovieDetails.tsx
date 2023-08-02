@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import InfoChip from '../components/chip/InfoChip';
 import { getJoinedDataNames } from '../utils/movieDetailsUtils';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type MovieDetailsNavigationProp = NativeStackNavigationProp<RootStackParamList, 'MovieDetails'>;
 type MovieDetailsRouteProp = RouteProp<RootStackParamList, 'MovieDetails'>;
@@ -22,6 +23,8 @@ const MovieDetails = () => {
 
   const { data, isFetching } = useGetMovieQuery(route.params.movieId);
 
+  const insets = useSafeAreaInsets();
+
   if (!data)
     return <View style={styles.emptyStateContainer}>{isFetching && <ActivityIndicator />}</View>;
 
@@ -30,7 +33,7 @@ const MovieDetails = () => {
   return (
     <View style={styles.container}>
       <Image
-        style={{ width, height: height / 1.6 }}
+        style={{ width, height: height * 0.6 }}
         resizeMode={moviePosterImage.resizeMode}
         source={moviePosterImage.source}
       />
@@ -72,8 +75,11 @@ const MovieDetails = () => {
           />
         </ScrollView>
       </View>
+
       <ScrollView alwaysBounceVertical={false} contentContainerStyle={[styles.overviewContainer]}>
-        <Text>{data?.overview}</Text>
+        <View>
+          <Text style={{ marginBottom: 32 + insets.bottom }}>{data?.overview}</Text>
+        </View>
       </ScrollView>
     </View>
   );
@@ -98,7 +104,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   overviewContainer: {
-    marginTop: 8,
+    marginTop: 16,
     paddingHorizontal: 16,
   },
   title: { flexShrink: 1, marginLeft: 8 },
