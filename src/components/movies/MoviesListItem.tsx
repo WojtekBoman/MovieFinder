@@ -15,6 +15,8 @@ interface Props {
 const MoviesListItem = ({ item, onPress, style }: Props) => {
   const handleOnPress = () => onPress(item);
 
+  const moviePosterImage = getMoviePoster(item.poster_path);
+
   return (
     <Card
       mode="outlined"
@@ -25,8 +27,8 @@ const MoviesListItem = ({ item, onPress, style }: Props) => {
       <View style={styles.innerContainer}>
         <Card.Cover
           style={styles.cover}
-          resizeMode="stretch"
-          source={{ uri: getMoviePoster(item.poster_path) }}
+          resizeMode={moviePosterImage.resizeMode}
+          source={moviePosterImage.source}
         />
         <Card.Content style={styles.infoContainer}>
           <Text variant="titleLarge">{item.title}</Text>
@@ -45,6 +47,7 @@ export default MoviesListItem;
 const styles = StyleSheet.create({
   container: { backgroundColor: Colors.background },
   cover: {
+    backgroundColor: Colors.background,
     flex: 0.4,
   },
   infoContainer: {

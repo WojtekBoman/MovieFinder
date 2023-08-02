@@ -22,7 +22,7 @@ const InfoChip = ({
   iconSize = 18,
   iconColor = Colors.primary,
 }: Props) => {
-  const chipText = `${label}: ${value}`;
+  const chipText = `${label}: ${value || 'Unknown'}`;
 
   return (
     <Chip

@@ -25,12 +25,14 @@ const MovieDetails = () => {
   if (!data)
     return <View style={styles.emptyStateContainer}>{isFetching && <ActivityIndicator />}</View>;
 
+  const moviePosterImage = getMoviePoster(data.poster_path);
+
   return (
     <View style={styles.container}>
       <Image
         style={{ width, height: height / 1.6 }}
-        resizeMode="stretch"
-        source={{ uri: getMoviePoster(data.poster_path) }}
+        resizeMode={moviePosterImage.resizeMode}
+        source={moviePosterImage.source}
       />
       <View>
         <View style={styles.titleHeader}>
