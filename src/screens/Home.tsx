@@ -22,12 +22,13 @@ const Home = () => {
   const debounceCallback = () => setCurrentPage(1);
   const debouncedQueryText = useDebounce<string>(queryText, debounceCallback);
 
-  const { data, isFetching } = useGetMoviesQuery(
+  const { data } = useGetMoviesQuery(
     {
       queryText: debouncedQueryText,
       page: currentPage,
     },
     {
+      skip: !queryText,
       selectFromResult: ({ data, ...otherParams }) => ({
         data: moviesSelector.selectAll(data ?? moviesAdapter.getInitialState()),
         ...otherParams,
@@ -59,7 +60,7 @@ const Home = () => {
 
       <MoviesList
         listItemStyle={styles.listItem}
-        data={data}
+        data={queryText ? data : []}
         onPressListItem={handleOnPressListItem}
         onEndReached={handleOnEndReached}
       />
