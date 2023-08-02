@@ -8,11 +8,18 @@ interface Props {
   onPressListItem: (item: Movie) => void;
   listItemStyle?: StyleProp<ViewStyle>;
   contentContainerStyle?: StyleProp<ViewStyle>;
+  onEndReached: () => void;
 }
 
 const keyExtractor = (item: Movie) => `${item.id}`;
 
-const MoviesList = ({ data, onPressListItem, listItemStyle, contentContainerStyle }: Props) => {
+const MoviesList = ({
+  data,
+  onPressListItem,
+  listItemStyle,
+  contentContainerStyle,
+  onEndReached,
+}: Props) => {
   const renderItem = useCallback(({ item }: { item: Movie }) => {
     return <MoviesListItem style={listItemStyle} item={item} onPress={onPressListItem} />;
   }, []);
@@ -24,6 +31,7 @@ const MoviesList = ({ data, onPressListItem, listItemStyle, contentContainerStyl
       data={data}
       renderItem={renderItem}
       style={styles.listRadius}
+      onEndReached={onEndReached}
     />
   );
 };
