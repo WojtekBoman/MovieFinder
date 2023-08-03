@@ -1,19 +1,31 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { Searchbar, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch } from 'react-redux';
+import ImageInfo from '../components/info/ImageInfo';
 import MoviesList from '../components/movies/MoviesList';
 import { SEARCHBAR_TEXT_MAX_LENGTH } from '../constants/constants';
 import { useDebounce } from '../hooks/useDebounce';
+import { Images } from '../img';
 import { RootStackParamList } from '../navigation';
 import { moviesAdapter, moviesSelector, useGetMoviesQuery } from '../store/apis/moviesApi';
 import { Colors } from '../theme/colors';
 import { Movie } from '../types/Movie';
 
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
+
+const ListEmptyComponent = () => {
+  return (
+    <View style={styles.emptyStateContainer}>
+      <ImageInfo
+        source={Images.imagePlaceholder}
+        title="To find a video, enter any phrase in the field above. If no matches are found, enter another phrase."
+      />
+    </View>
+  );
+};
 
 const Home = () => {
   const [results, setResults] = useState<Movie[]>([]);
@@ -27,7 +39,7 @@ const Home = () => {
   };
   const debouncedQueryText = useDebounce<string>(queryText, debounceCallback);
 
-  const { data, refetch, isFetching, isSuccess } = useGetMoviesQuery(
+  const { data, refetch, isFetching, isSuccess, isError } = useGetMoviesQuery(
     {
       queryText: debouncedQueryText,
       page: currentPage,
@@ -95,6 +107,7 @@ const Home = () => {
         />
       </View>
       <MoviesList
+        ListEmptyComponent={ListEmptyComponent}
         alwaysBounceVertical={false}
         onRefresh={handleOnRefresh.bind(this, !!debouncedQueryText && !!data.length)}
         refreshing={isFetching}
@@ -102,6 +115,7 @@ const Home = () => {
         listItemStyle={styles.listItem}
         data={results}
         onPressListItem={handleOnPressListItem}
+        onEndReachedThreshold={0.5}
         onEndReached={handleOnEndReached.bind(this, !!queryText && !!data.length)}
       />
     </SafeAreaView>
@@ -114,6 +128,13 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.background,
     flex: 1,
+  },
+  emptyStateContainer: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+    marginBottom: 64,
+    padding: 16,
   },
   header: {
     padding: 16,

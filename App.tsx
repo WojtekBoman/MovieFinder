@@ -5,6 +5,7 @@ import Router from './src/navigation';
 import { store } from './src/store/store';
 import RNBootSplash from 'react-native-bootsplash';
 import { ToastProvider } from 'react-native-toast-notifications';
+import Toast from 'react-native-toast-notifications';
 
 export default function App() {
   useEffect(() => {
@@ -25,6 +26,7 @@ export default function App() {
           <Router />
         </PaperProvider>
       </ToastProvider>
+      <Toast ref={(ref) => (global.toast = ref)} />
     </Provider>
   );
 }

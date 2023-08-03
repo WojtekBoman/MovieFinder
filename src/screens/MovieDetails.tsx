@@ -16,7 +16,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import InfoChip from '../components/chip/InfoChip';
 import { getJoinedDataNames } from '../utils/movieDetailsUtils';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useToast } from 'react-native-toast-notifications';
 
 type MovieDetailsNavigationProp = NativeStackNavigationProp<RootStackParamList, 'MovieDetails'>;
 type MovieDetailsRouteProp = RouteProp<RootStackParamList, 'MovieDetails'>;
@@ -26,7 +25,6 @@ const { width, height } = Dimensions.get('screen');
 const MovieDetails = () => {
   const route = useRoute<MovieDetailsRouteProp>();
   const navigation = useNavigation<MovieDetailsNavigationProp>();
-  const toast = useToast();
   const { movieId, queryText, page } = route.params;
 
   const { movie } = useGetMoviesQuery(
@@ -38,15 +36,9 @@ const MovieDetails = () => {
     }
   );
 
-  const { data: movieDetails, isFetching, isError } = useGetMovieQuery(movieId);
+  const { data: movieDetails, isFetching } = useGetMovieQuery(movieId + 314123498);
 
   const insets = useSafeAreaInsets();
-
-  useEffect(() => {
-    if (isError) {
-      toast.show("Problem with downloading the movie's details");
-    }
-  }, [isError]);
 
   if (!movie)
     return <View style={styles.emptyStateContainer}>{isFetching && <ActivityIndicator />}</View>;

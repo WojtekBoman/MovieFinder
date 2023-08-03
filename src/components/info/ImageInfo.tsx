@@ -11,17 +11,17 @@ import React from 'react';
 import { Text } from 'react-native-paper';
 
 interface Props {
-  image: ImageSourcePropType;
+  source: ImageSourcePropType;
   title: string;
   style?: StyleProp<ViewStyle>;
 }
 
 const { width } = Dimensions.get('screen');
 
-const ImageInfo = ({ image, title, style }: Props) => {
+const ImageInfo = ({ source, title, style }: Props) => {
   return (
     <View style={[styles.container, style]}>
-      <Image source={image} style={styles.image} />
+      <Image source={source} style={styles.image} />
       <Text style={styles.text} variant="titleMedium">
         {title}
       </Text>
