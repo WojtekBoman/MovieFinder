@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
     marginLeft: spacing[3],
   },
   image: {
+    backgroundColor: Colors.background,
     borderRadius: 16,
   },
   imageView: {
