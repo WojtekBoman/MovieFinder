@@ -5,6 +5,7 @@ import { Card, Text } from 'react-native-paper';
 import { Colors } from '../../theme/colors';
 import { getMoviePoster } from '../../utils/imageUtils';
 import TextWithIcon from '../text/TextWithIcon';
+import { spacing } from '../../theme/spacing';
 
 interface Props {
   item: Movie;
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     flex: 0.6,
     justifyContent: 'space-between',
-    padding: 16,
+    padding: spacing[3],
   },
   innerContainer: {
     flexDirection: 'row',

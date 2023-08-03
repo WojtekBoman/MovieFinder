@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import { Text } from 'react-native-paper';
+import { spacing } from '../../theme/spacing';
 
 interface Props {
   source: ImageSourcePropType;
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
   },
   image: {
     height: width / 3,
-    marginBottom: 16,
+    marginBottom: spacing[3],
     width: width / 3,
   },
   text: {

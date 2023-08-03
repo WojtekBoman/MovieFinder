@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Colors } from '../../theme/colors';
 import { Text } from 'react-native-paper';
 import { VariantProp } from 'react-native-paper/lib/typescript/src/components/Typography/types';
+import { spacing } from '../../theme/spacing';
 
 interface Props {
   iconName: string;
@@ -38,6 +39,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   text: {
-    marginLeft: 5,
+    marginLeft: spacing[2],
   },
 });

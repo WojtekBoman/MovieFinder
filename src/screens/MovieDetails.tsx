@@ -16,6 +16,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import InfoChip from '../components/chip/InfoChip';
 import { getJoinedDataNames } from '../utils/movieDetailsUtils';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { spacing } from '../theme/spacing';
 
 type MovieDetailsNavigationProp = NativeStackNavigationProp<RootStackParamList, 'MovieDetails'>;
 type MovieDetailsRouteProp = RouteProp<RootStackParamList, 'MovieDetails'>;
@@ -101,7 +102,7 @@ const MovieDetails = () => {
 
       <ScrollView alwaysBounceVertical={false} contentContainerStyle={[styles.overviewContainer]}>
         <View>
-          <Text style={{ marginBottom: 32 + insets.bottom }}>{movie.overview}</Text>
+          <Text style={{ marginBottom: spacing[4] + insets.bottom }}>{movie.overview}</Text>
         </View>
       </ScrollView>
     </View>
@@ -114,22 +115,22 @@ const styles = StyleSheet.create({
   container: { backgroundColor: Colors.background, flex: 1 },
   emptyStateContainer: {},
   firstInfoChip: {
-    marginLeft: 16,
+    marginLeft: spacing[3],
   },
   infoChip: {
-    marginRight: 8,
+    marginRight: spacing[2],
   },
   infoChipsContainer: {
-    marginTop: 16,
+    marginTop: spacing[3],
   },
 
   lastInfoChip: {
-    marginRight: 16,
+    marginRight: spacing[3],
   },
   overviewContainer: {
-    marginTop: 16,
-    paddingHorizontal: 16,
+    marginTop: spacing[3],
+    paddingHorizontal: spacing[3],
   },
-  title: { flexShrink: 1, marginLeft: 8 },
-  titleHeader: { alignItems: 'center', flexDirection: 'row', padding: 16 },
+  title: { flexShrink: 1, marginLeft: spacing[2] },
+  titleHeader: { alignItems: 'center', flexDirection: 'row', padding: spacing[3] },
 });

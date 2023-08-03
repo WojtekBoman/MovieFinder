@@ -12,6 +12,7 @@ import { Images } from '../img';
 import { RootStackParamList } from '../navigation';
 import { moviesAdapter, moviesSelector, useGetMoviesQuery } from '../store/apis/moviesApi';
 import { Colors } from '../theme/colors';
+import { spacing } from '../theme/spacing';
 import { Movie } from '../types/Movie';
 
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
@@ -133,22 +134,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
-    marginBottom: 64,
-    padding: 16,
+    marginBottom: spacing[5],
+    padding: spacing[3],
   },
   header: {
-    padding: 16,
+    padding: spacing[3],
   },
   headerTitle: {
-    marginBottom: 8,
+    marginBottom: spacing[2],
   },
   list: {
     flexGrow: 1,
-    paddingBottom: 16,
+    paddingBottom: spacing[3],
   },
   listItem: {
-    marginBottom: 16,
-    marginHorizontal: 16,
+    marginBottom: spacing[3],
+    marginHorizontal: spacing[3],
   },
   searchbar: {
     backgroundColor: Colors.primary,
