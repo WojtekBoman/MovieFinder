@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { Searchbar, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
 import MoviesList from '../components/movies/MoviesList';
 import { SEARCHBAR_TEXT_MAX_LENGTH } from '../constants/constants';
 import { useDebounce } from '../hooks/useDebounce';
@@ -15,7 +16,7 @@ import { Movie } from '../types/Movie';
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 const Home = () => {
-  const ref = useRef<TextInput>(null);
+  const [results, setResults] = useState<Movie[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const navigation = useNavigation<HomeNavigationProp>();
@@ -26,7 +27,7 @@ const Home = () => {
   };
   const debouncedQueryText = useDebounce<string>(queryText, debounceCallback);
 
-  const { data, refetch, isFetching } = useGetMoviesQuery(
+  const { data, refetch, isFetching, isSuccess } = useGetMoviesQuery(
     {
       queryText: debouncedQueryText,
       page: currentPage,
@@ -51,6 +52,18 @@ const Home = () => {
     }
   }, [selectedMovie]);
 
+  useEffect(() => {
+    if (!debouncedQueryText && !!results.length) {
+      setResults([]);
+    }
+  }, [debouncedQueryText]);
+
+  useEffect(() => {
+    if (isSuccess && !isFetching) {
+      setResults(data);
+    }
+  }, [data, isSuccess, isFetching]);
+
   const handleOnPressListItem = (item: Movie) => {
     setSelectedMovie(item);
   };
@@ -64,6 +77,8 @@ const Home = () => {
     refetch();
   };
 
+  const handleOnClearIconPress = () => setResults([]);
+
   return (
     <SafeAreaView edges={['top', 'left', 'right']} style={styles.container}>
       <View style={styles.header}>
@@ -71,6 +86,7 @@ const Home = () => {
           Movie finder
         </Text>
         <Searchbar
+          onClearIconPress={handleOnClearIconPress}
           style={styles.searchbar}
           placeholder="Find your movie"
           value={queryText}
@@ -84,9 +100,9 @@ const Home = () => {
         refreshing={isFetching}
         contentContainerStyle={styles.list}
         listItemStyle={styles.listItem}
-        data={queryText ? data : []}
+        data={results}
         onPressListItem={handleOnPressListItem}
-        onEndReached={handleOnEndReached.bind(this, !!debouncedQueryText && !!data.length)}
+        onEndReached={handleOnEndReached.bind(this, !!queryText && !!data.length)}
       />
     </SafeAreaView>
   );
