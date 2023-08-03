@@ -37,7 +37,7 @@ const MovieDetails = () => {
     }
   );
 
-  const { data: movieDetails, isFetching } = useGetMovieQuery(movieId + 314123498);
+  const { data: movieDetails, isFetching } = useGetMovieQuery(movieId);
 
   const insets = useSafeAreaInsets();
 
