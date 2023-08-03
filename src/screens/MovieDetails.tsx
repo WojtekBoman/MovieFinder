@@ -1,6 +1,6 @@
 import { Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { RootStackParamList } from '../navigation';
 import {
   moviesAdapter,
@@ -17,11 +17,15 @@ import InfoChip from '../components/chip/InfoChip';
 import { getJoinedDataNames } from '../utils/movieDetailsUtils';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { spacing } from '../theme/spacing';
+import LinearGradient from 'react-native-linear-gradient';
 
 type MovieDetailsNavigationProp = NativeStackNavigationProp<RootStackParamList, 'MovieDetails'>;
 type MovieDetailsRouteProp = RouteProp<RootStackParamList, 'MovieDetails'>;
 
-const { width, height } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
+
+const POSTER_WIDTH = width * 0.6;
+const POSTER_HEIGHT = POSTER_WIDTH * 1.5;
 
 const MovieDetails = () => {
   const route = useRoute<MovieDetailsRouteProp>();
@@ -48,11 +52,21 @@ const MovieDetails = () => {
 
   return (
     <View style={styles.container}>
-      <Image
-        style={{ width, height: height * 0.6 }}
-        resizeMode={moviePosterImage.resizeMode}
-        source={moviePosterImage.source}
-      />
+      <LinearGradient
+        colors={[Colors.primary, Colors.background]}
+        style={[
+          styles.imageView,
+          {
+            paddingTop: spacing[3] + insets.top,
+          },
+        ]}
+      >
+        <Image
+          style={[styles.image, { width: POSTER_WIDTH, height: POSTER_HEIGHT }]}
+          resizeMode={moviePosterImage.resizeMode}
+          source={moviePosterImage.source}
+        />
+      </LinearGradient>
       <View>
         <View style={styles.titleHeader}>
           <TouchableOpacity onPress={navigation.goBack}>
@@ -116,6 +130,13 @@ const styles = StyleSheet.create({
   emptyStateContainer: {},
   firstInfoChip: {
     marginLeft: spacing[3],
+  },
+  image: {
+    borderRadius: 16,
+  },
+  imageView: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   infoChip: {
     marginRight: spacing[2],
