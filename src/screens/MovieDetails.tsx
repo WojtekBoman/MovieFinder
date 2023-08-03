@@ -1,8 +1,13 @@
 import { Dimensions, Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RootStackParamList } from '../navigation';
-import { useGetMovieQuery } from '../store/apis/moviesApi';
+import {
+  moviesAdapter,
+  moviesSelector,
+  useGetMovieQuery,
+  useGetMoviesQuery,
+} from '../store/apis/moviesApi';
 import { getMoviePoster } from '../utils/imageUtils';
 import { ActivityIndicator, Divider, Text } from 'react-native-paper';
 import { Colors } from '../theme/colors';
@@ -11,6 +16,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import InfoChip from '../components/chip/InfoChip';
 import { getJoinedDataNames } from '../utils/movieDetailsUtils';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useToast } from 'react-native-toast-notifications';
 
 type MovieDetailsNavigationProp = NativeStackNavigationProp<RootStackParamList, 'MovieDetails'>;
 type MovieDetailsRouteProp = RouteProp<RootStackParamList, 'MovieDetails'>;
@@ -20,15 +26,32 @@ const { width, height } = Dimensions.get('screen');
 const MovieDetails = () => {
   const route = useRoute<MovieDetailsRouteProp>();
   const navigation = useNavigation<MovieDetailsNavigationProp>();
+  const toast = useToast();
+  const { movieId, queryText, page } = route.params;
 
-  const { data, isFetching } = useGetMovieQuery(route.params.movieId);
+  const { movie } = useGetMoviesQuery(
+    { queryText, page },
+    {
+      selectFromResult: ({ data }) => ({
+        movie: moviesSelector.selectById(data ?? moviesAdapter.getInitialState(), movieId),
+      }),
+    }
+  );
+
+  const { data: movieDetails, isFetching, isError } = useGetMovieQuery(movieId);
 
   const insets = useSafeAreaInsets();
 
-  if (!data)
+  useEffect(() => {
+    if (isError) {
+      toast.show("Problem with downloading the movie's details");
+    }
+  }, [isError]);
+
+  if (!movie)
     return <View style={styles.emptyStateContainer}>{isFetching && <ActivityIndicator />}</View>;
 
-  const moviePosterImage = getMoviePoster(data.poster_path);
+  const moviePosterImage = getMoviePoster(movie.poster_path);
 
   return (
     <View style={styles.container}>
@@ -43,7 +66,7 @@ const MovieDetails = () => {
             <Icon name="arrow-left" size={24} />
           </TouchableOpacity>
           <Text style={styles.title} variant="titleLarge">
-            {data?.title}
+            {movie.title}
           </Text>
         </View>
         <Divider />
@@ -54,31 +77,39 @@ const MovieDetails = () => {
             icon="star"
             style={[styles.firstInfoChip, styles.infoChip]}
             label="Votes"
-            value={data.vote_count.toString()}
+            value={movie.vote_count.toString()}
           />
           <InfoChip
             icon="chart-bar"
             style={styles.infoChip}
             label="Popularity"
-            value={data.popularity.toString()}
+            value={movie.popularity.toString()}
           />
-          <InfoChip style={styles.infoChip} label="Runtime" value={`${data.runtime} min`} />
-          <InfoChip
-            style={styles.infoChip}
-            label="Genres"
-            value={getJoinedDataNames(data.genres)}
-          />
-          <InfoChip
-            style={styles.lastInfoChip}
-            label="Made in"
-            value={getJoinedDataNames(data.production_countries)}
-          />
+          {movieDetails && (
+            <>
+              <InfoChip
+                style={styles.infoChip}
+                label="Runtime"
+                value={`${movieDetails.runtime} min`}
+              />
+              <InfoChip
+                style={styles.infoChip}
+                label="Genres"
+                value={getJoinedDataNames(movieDetails.genres)}
+              />
+              <InfoChip
+                style={styles.lastInfoChip}
+                label="Made in"
+                value={getJoinedDataNames(movieDetails.production_countries)}
+              />
+            </>
+          )}
         </ScrollView>
       </View>
 
       <ScrollView alwaysBounceVertical={false} contentContainerStyle={[styles.overviewContainer]}>
         <View>
-          <Text style={{ marginBottom: 32 + insets.bottom }}>{data?.overview}</Text>
+          <Text style={{ marginBottom: 32 + insets.bottom }}>{movie.overview}</Text>
         </View>
       </ScrollView>
     </View>

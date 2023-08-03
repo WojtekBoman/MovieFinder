@@ -1,14 +1,14 @@
-import { FlatList, StyleProp, StyleSheet, ViewStyle } from 'react-native';
+import { FlatList, FlatListProps, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import React, { useCallback } from 'react';
 import { Movie } from '../../types/Movie';
 import MoviesListItem from './MoviesListItem';
 
-interface Props {
+interface Props extends Omit<FlatListProps<Movie>, 'renderItem'> {
   data: Movie[];
+  contentContainerStyle?: StyleProp<ViewStyle>;
+  style?: StyleProp<ViewStyle>;
   onPressListItem: (item: Movie) => void;
   listItemStyle?: StyleProp<ViewStyle>;
-  contentContainerStyle?: StyleProp<ViewStyle>;
-  onEndReached: () => void;
 }
 
 const keyExtractor = (item: Movie) => `${item.id}`;
@@ -18,7 +18,8 @@ const MoviesList = ({
   onPressListItem,
   listItemStyle,
   contentContainerStyle,
-  onEndReached,
+  style,
+  ...props
 }: Props) => {
   const renderItem = useCallback(({ item }: { item: Movie }) => {
     return <MoviesListItem style={listItemStyle} item={item} onPress={onPressListItem} />;
@@ -26,12 +27,12 @@ const MoviesList = ({
 
   return (
     <FlatList
+      {...props}
       contentContainerStyle={[contentContainerStyle]}
       keyExtractor={keyExtractor}
       data={data}
       renderItem={renderItem}
-      style={styles.listRadius}
-      onEndReached={onEndReached}
+      style={[styles.listRadius, style]}
     />
   );
 };

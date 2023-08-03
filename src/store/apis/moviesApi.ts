@@ -40,7 +40,7 @@ export const moviesApi = createApi({
     }),
     getMovie: builder.query<MovieDetails, number>({
       query: (id) => `/movie/${id}`,
-      providesTags: ['Movie'],
+      providesTags: (result, error, id) => [{ type: 'Movie', id }],
     }),
   }),
 });

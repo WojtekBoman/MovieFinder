@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, TextInput, View } from 'react-native';
 import { Searchbar, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MoviesList from '../components/movies/MoviesList';
@@ -15,20 +15,24 @@ import { Movie } from '../types/Movie';
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 const Home = () => {
+  const ref = useRef<TextInput>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const navigation = useNavigation<HomeNavigationProp>();
   const [queryText, setQueryText] = useState('');
 
-  const debounceCallback = () => setCurrentPage(1);
+  const debounceCallback = () => {
+    if (currentPage !== 1) setCurrentPage(1);
+  };
   const debouncedQueryText = useDebounce<string>(queryText, debounceCallback);
 
-  const { data } = useGetMoviesQuery(
+  const { data, refetch, isFetching } = useGetMoviesQuery(
     {
       queryText: debouncedQueryText,
       page: currentPage,
     },
     {
-      skip: !queryText,
+      skip: !debouncedQueryText,
       selectFromResult: ({ data, ...otherParams }) => ({
         data: moviesSelector.selectAll(data ?? moviesAdapter.getInitialState()),
         ...otherParams,
@@ -36,11 +40,28 @@ const Home = () => {
     }
   );
 
-  const handleOnPressListItem = (item: Movie) =>
-    navigation.navigate('MovieDetails', { movieId: item.id });
+  useEffect(() => {
+    if (selectedMovie) {
+      setSelectedMovie(null);
+      navigation.navigate('MovieDetails', {
+        movieId: selectedMovie.id,
+        queryText,
+        page: currentPage,
+      });
+    }
+  }, [selectedMovie]);
 
-  const handleOnEndReached = () => {
-    setCurrentPage(currentPage + 1);
+  const handleOnPressListItem = (item: Movie) => {
+    setSelectedMovie(item);
+  };
+
+  const handleOnEndReached = (shouldInvokeEndReached: boolean) => {
+    if (shouldInvokeEndReached) setCurrentPage((prev) => prev + 1);
+  };
+
+  const handleOnRefresh = (shouldRefresh: boolean) => {
+    if (!shouldRefresh) return;
+    refetch();
   };
 
   return (
@@ -57,12 +78,15 @@ const Home = () => {
           maxLength={SEARCHBAR_TEXT_MAX_LENGTH}
         />
       </View>
-
       <MoviesList
+        alwaysBounceVertical={false}
+        onRefresh={handleOnRefresh.bind(this, !!debouncedQueryText && !!data.length)}
+        refreshing={isFetching}
+        contentContainerStyle={styles.list}
         listItemStyle={styles.listItem}
         data={queryText ? data : []}
         onPressListItem={handleOnPressListItem}
-        onEndReached={handleOnEndReached}
+        onEndReached={handleOnEndReached.bind(this, !!debouncedQueryText && !!data.length)}
       />
     </SafeAreaView>
   );
@@ -80,6 +104,10 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     marginBottom: 8,
+  },
+  list: {
+    flexGrow: 1,
+    paddingBottom: 16,
   },
   listItem: {
     marginBottom: 16,
