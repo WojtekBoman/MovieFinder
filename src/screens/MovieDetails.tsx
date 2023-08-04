@@ -13,7 +13,7 @@ import { ActivityIndicator, Divider, Text } from 'react-native-paper';
 import { Colors } from '../theme/colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import InfoChip from '../components/chip/InfoChip';
+import InfoChip from '../components/info/InfoChip';
 import { getJoinedDataNames } from '../utils/movieDetailsUtils';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { spacing } from '../theme/spacing';
@@ -62,6 +62,7 @@ const MovieDetails = () => {
         ]}
       >
         <Image
+          testID="movie-details-image"
           style={[styles.image, { width: POSTER_WIDTH, height: POSTER_HEIGHT }]}
           resizeMode={moviePosterImage.resizeMode}
           source={moviePosterImage.source}
@@ -69,10 +70,10 @@ const MovieDetails = () => {
       </LinearGradient>
       <View>
         <View style={styles.titleHeader}>
-          <TouchableOpacity onPress={navigation.goBack}>
+          <TouchableOpacity testID="movie-details-back-button" onPress={navigation.goBack}>
             <Icon name="arrow-left" size={24} />
           </TouchableOpacity>
-          <Text style={styles.title} variant="titleLarge">
+          <Text testID="movie-details-title" style={styles.title} variant="titleLarge">
             {movie.title}
           </Text>
         </View>
@@ -81,12 +82,14 @@ const MovieDetails = () => {
       <View style={styles.infoChipsContainer}>
         <ScrollView showsHorizontalScrollIndicator={false} horizontal>
           <InfoChip
+            testID="info-chip-vote-count"
             icon="star"
             style={[styles.firstInfoChip, styles.infoChip]}
             label="Votes"
             value={movie.vote_count.toString()}
           />
           <InfoChip
+            testID="info-chip-popularity"
             icon="chart-bar"
             style={styles.infoChip}
             label="Popularity"
@@ -95,16 +98,19 @@ const MovieDetails = () => {
           {movieDetails && (
             <>
               <InfoChip
+                testID="info-chip-runtime"
                 style={styles.infoChip}
                 label="Runtime"
                 value={`${movieDetails.runtime} min`}
               />
               <InfoChip
+                testID="info-chip-genres"
                 style={styles.infoChip}
                 label="Genres"
                 value={getJoinedDataNames(movieDetails.genres)}
               />
               <InfoChip
+                testID="info-chip-made-in"
                 style={styles.lastInfoChip}
                 label="Made in"
                 value={getJoinedDataNames(movieDetails.production_countries)}
@@ -116,7 +122,12 @@ const MovieDetails = () => {
 
       <ScrollView alwaysBounceVertical={false} contentContainerStyle={[styles.overviewContainer]}>
         <View>
-          <Text style={{ marginBottom: spacing[4] + insets.bottom }}>{movie.overview}</Text>
+          <Text
+            testID="movie-details-overview"
+            style={{ marginBottom: spacing[4] + insets.bottom }}
+          >
+            {movie.overview}
+          </Text>
         </View>
       </ScrollView>
     </View>

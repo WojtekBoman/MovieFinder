@@ -20,6 +20,7 @@ const MoviesListItem = ({ item, onPress, style }: Props) => {
 
   return (
     <Card
+      testID={`movies-list-item-${item.id}`}
       mode="outlined"
       theme={{ colors: { outline: Colors.primary } }}
       onPress={handleOnPress}
@@ -27,15 +28,26 @@ const MoviesListItem = ({ item, onPress, style }: Props) => {
     >
       <View style={styles.innerContainer}>
         <Card.Cover
+          testID={`movies-list-item-${item.id}-cover`}
           style={styles.cover}
           resizeMode={moviePosterImage.resizeMode}
           source={moviePosterImage.source}
         />
         <Card.Content style={styles.infoContainer}>
-          <Text variant="titleLarge">{item.title}</Text>
+          <Text testID={`movies-list-item-${item.id}-title`} variant="titleLarge">
+            {item.title}
+          </Text>
           <View style={styles.ratesContainer}>
-            <TextWithIcon iconName="star" text={item.vote_count.toString()} />
-            <TextWithIcon iconName="chart-bar" text={item.popularity.toString()} />
+            <TextWithIcon
+              testID={`movies-list-item-${item.id}-vote-count`}
+              iconName="star"
+              text={item.vote_count.toString()}
+            />
+            <TextWithIcon
+              testID={`movies-list-item-${item.id}-popularity`}
+              iconName="chart-bar"
+              text={item.popularity.toString()}
+            />
           </View>
         </Card.Content>
       </View>

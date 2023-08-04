@@ -1,11 +1,12 @@
 import { ColorValue, StyleProp, ViewStyle } from 'react-native';
 import React from 'react';
-import { Chip } from 'react-native-paper';
+import { Chip, Text } from 'react-native-paper';
 import { Colors } from '../../theme/colors';
-import { IconSource } from 'react-native-paÓer/lib/typescript/src/components/Icon';
+import { IconSource } from 'react-native-paper/lib/typescript/src/components/Icon';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface Props {
+  testID: string;
   label: string;
   value: string;
   style?: StyleProp<ViewStyle>;
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const InfoChip = ({
+  testID,
   label,
   value,
   style,
@@ -30,7 +32,7 @@ const InfoChip = ({
       mode="outlined"
       style={[{ borderColor: Colors.primary, backgroundColor: Colors.background }, style]}
     >
-      {chipText}
+      <Text testID={testID}>{chipText}</Text>
     </Chip>
   );
 };

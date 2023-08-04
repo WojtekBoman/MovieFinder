@@ -2,11 +2,10 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Searchbar, Text } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ImageInfo from '../components/info/ImageInfo';
+import SearchBarHeader from '../components/header/SearchBarHeader';
+import InfoWithImage from '../components/info/InfoWithImage';
 import MoviesList from '../components/movies/MoviesList';
-import { SEARCHBAR_TEXT_MAX_LENGTH } from '../constants/constants';
 import { useDebounce } from '../hooks/useDebounce';
 import { Images } from '../img';
 import { RootStackParamList } from '../navigation';
@@ -21,7 +20,9 @@ type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 const ListEmptyComponent = () => {
   return (
     <View style={styles.emptyStateContainer}>
-      <ImageInfo
+      <InfoWithImage
+        imageTestID="movies-list-empty-state-image"
+        titleTestID="movies-list-empty-state-title"
         source={Images.imagePlaceholder}
         title="To find a video, enter any phrase in the field above. If no matches are found, enter another phrase."
       />
@@ -100,20 +101,18 @@ const Home = () => {
 
   return (
     <SafeAreaView edges={['top', 'left', 'right']} style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle} variant="displayMedium">
-          Movie finder
-        </Text>
-        <Searchbar
-          onClearIconPress={handleOnClearIconPress}
-          style={styles.searchbar}
-          placeholder="Find your movie"
-          value={queryText}
-          onChangeText={setQueryText}
-          maxLength={SEARCHBAR_TEXT_MAX_LENGTH}
-        />
-      </View>
+      <SearchBarHeader
+        titleTestID="search-bar-header-title"
+        searchBarTestID="search-bar"
+        headerTitle="Movie finder"
+        searchBarValue={queryText}
+        onChangeSearchBarValue={setQueryText}
+        onClearIconPress={handleOnClearIconPress}
+        searchBarPlaceholder="Find your movie"
+        style={styles.header}
+      />
       <MoviesList
+        testID="movies-list"
         ListEmptyComponent={ListEmptyComponent}
         alwaysBounceVertical={false}
         onRefresh={handleOnRefresh.bind(this, !!debouncedQueryText && !!data.length)}
@@ -146,9 +145,6 @@ const styles = StyleSheet.create({
   header: {
     padding: spacing[3],
   },
-  headerTitle: {
-    marginBottom: spacing[2],
-  },
   list: {
     flexGrow: 1,
     paddingBottom: spacing[3],
@@ -156,8 +152,5 @@ const styles = StyleSheet.create({
   listItem: {
     marginBottom: spacing[3],
     marginHorizontal: spacing[3],
-  },
-  searchbar: {
-    backgroundColor: Colors.primary,
   },
 });

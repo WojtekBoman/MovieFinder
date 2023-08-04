@@ -12,6 +12,8 @@ import { Text } from 'react-native-paper';
 import { spacing } from '../../theme/spacing';
 
 interface Props {
+  imageTestID?: string;
+  titleTestID?: string;
   source: ImageSourcePropType;
   title: string;
   style?: StyleProp<ViewStyle>;
@@ -19,18 +21,18 @@ interface Props {
 
 const { width } = Dimensions.get('screen');
 
-const ImageInfo = ({ source, title, style }: Props) => {
+const InfoWithImage = ({ source, title, style, imageTestID, titleTestID }: Props) => {
   return (
     <View style={[styles.container, style]}>
-      <Image source={source} style={styles.image} />
-      <Text style={styles.text} variant="titleMedium">
+      <Image testID={imageTestID} source={source} style={styles.image} />
+      <Text testID={titleTestID} style={styles.text} variant="titleMedium">
         {title}
       </Text>
     </View>
   );
 };
 
-export default ImageInfo;
+export default InfoWithImage;
 
 const styles = StyleSheet.create({
   container: {

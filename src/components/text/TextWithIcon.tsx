@@ -7,6 +7,7 @@ import { VariantProp } from 'react-native-paper/lib/typescript/src/components/Ty
 import { spacing } from '../../theme/spacing';
 
 interface Props {
+  testID?: string;
   iconName: string;
   text: string;
   color?: ColorValue;
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const TextWithIcon = ({
+  testID,
   iconName,
   text,
   color = Colors.secondaryText,
@@ -24,7 +26,7 @@ const TextWithIcon = ({
   return (
     <View style={styles.container}>
       <Icon name={iconName} size={iconSize} color={color} />
-      <Text style={[styles.text, { color }]} variant={textVariant}>
+      <Text testID={testID} style={[styles.text, { color }]} variant={textVariant}>
         {text}
       </Text>
     </View>
