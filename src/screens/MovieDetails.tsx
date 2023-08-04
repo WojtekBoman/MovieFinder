@@ -9,7 +9,7 @@ import {
   useGetMoviesQuery,
 } from '../store/apis/moviesApi';
 import { getMoviePoster } from '../utils/imageUtils';
-import { ActivityIndicator, Divider, Text } from 'react-native-paper';
+import { Button, Divider, Text } from 'react-native-paper';
 import { Colors } from '../theme/colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -18,9 +18,35 @@ import { getJoinedDataNames } from '../utils/movieDetailsUtils';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { spacing } from '../theme/spacing';
 import LinearGradient from 'react-native-linear-gradient';
+import InfoWithImage from '../components/info/InfoWithImage';
+import { Images } from '../img';
 
 type MovieDetailsNavigationProp = NativeStackNavigationProp<RootStackParamList, 'MovieDetails'>;
 type MovieDetailsRouteProp = RouteProp<RootStackParamList, 'MovieDetails'>;
+
+interface EmptyStateComponentProps {
+  onPressBack: () => void;
+}
+
+const EmptyStateComponent = ({ onPressBack }: EmptyStateComponentProps) => (
+  <View style={styles.emptyStateContainer}>
+    <InfoWithImage
+      titleTestID="movie-details-empty-state-title"
+      imageTestID="movie-details-empty-state-image"
+      source={Images.sadFace}
+      title="An error occurred while loading movie data"
+    />
+    <Button
+      testID="movie-details-empty-state-button"
+      style={styles.emptyStateButton}
+      buttonColor={Colors.primary}
+      mode="contained"
+      onPress={onPressBack}
+    >
+      <Text variant="titleMedium">Back to main screen</Text>
+    </Button>
+  </View>
+);
 
 const { width } = Dimensions.get('screen');
 
@@ -45,8 +71,7 @@ const MovieDetails = () => {
 
   const insets = useSafeAreaInsets();
 
-  if (!movie)
-    return <View style={styles.emptyStateContainer}>{isFetching && <ActivityIndicator />}</View>;
+  if (!movie) return <EmptyStateComponent onPressBack={navigation.goBack} />;
 
   const moviePosterImage = getMoviePoster(movie.poster_path);
 
@@ -138,7 +163,15 @@ export default MovieDetails;
 
 const styles = StyleSheet.create({
   container: { backgroundColor: Colors.background, flex: 1 },
-  emptyStateContainer: {},
+  emptyStateButton: {
+    marginTop: spacing[3],
+  },
+  emptyStateContainer: {
+    alignItems: 'center',
+    backgroundColor: Colors.background,
+    flex: 1,
+    justifyContent: 'center',
+  },
   firstInfoChip: {
     marginLeft: spacing[3],
   },
