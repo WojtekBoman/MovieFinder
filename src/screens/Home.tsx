@@ -14,6 +14,7 @@ import { moviesAdapter, moviesSelector, useGetMoviesQuery } from '../store/apis/
 import { Colors } from '../theme/colors';
 import { spacing } from '../theme/spacing';
 import { Movie } from '../types/Movie';
+import { animate } from '../utils/animationUtils';
 
 type HomeNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -67,12 +68,14 @@ const Home = () => {
 
   useEffect(() => {
     if (!debouncedQueryText && !!results.length) {
+      animate();
       setResults([]);
     }
   }, [debouncedQueryText]);
 
   useEffect(() => {
     if (isSuccess && !isFetching) {
+      animate();
       setResults(data);
     }
   }, [data, isSuccess, isFetching]);
@@ -90,7 +93,10 @@ const Home = () => {
     refetch();
   };
 
-  const handleOnClearIconPress = () => setResults([]);
+  const handleOnClearIconPress = () => {
+    animate();
+    setResults([]);
+  };
 
   return (
     <SafeAreaView edges={['top', 'left', 'right']} style={styles.container}>
