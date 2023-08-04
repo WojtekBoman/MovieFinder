@@ -46,6 +46,7 @@ const SearchBarHeader = ({
         value={searchBarValue}
         onChangeText={onChangeSearchBarValue}
         maxLength={maxLength}
+        iconColor={Colors.primaryText}
       />
     </View>
   );
@@ -59,5 +60,6 @@ const styles = StyleSheet.create({
   },
   searchbar: {
     backgroundColor: Colors.primary,
+    color: Colors.primaryText,
   },
 });
