@@ -1,0 +1,2 @@
+export const DEFAULT_DEBOUNCE_DELAY = 500;
+export const SEARCH_BAR_TEXT_MAX_LENGTH = 150;
