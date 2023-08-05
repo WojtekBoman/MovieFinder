@@ -19,22 +19,13 @@ Project is created with:
 
 ## Screenshots
 
-### iOS
-
-![1](https://github.com/WojtekBoman/movie-finder/assets/47774969/0d7773d0-3d9d-42f0-b789-3b1fd4b2058d)
-![2](https://github.com/WojtekBoman/movie-finder/assets/47774969/b0549c55-db91-4097-9642-e4d2dfdc9c90)
-
-### Android
-
 ![3](https://github.com/WojtekBoman/movie-finder/assets/47774969/bfc67b09-cd27-460c-a9d1-7e80e43d4a38)
-![4](https://github.com/WojtekBoman/movie-finder/assets/47774969/d6c8e9b7-d536-4983-8c5c-ecc1b0bb
+![4](https://github.com/WojtekBoman/movie-finder/assets/47774969/d6c8e9b7-d536-4983-8c5c-ecc1b0bb4a53)
 ![5](https://github.com/WojtekBoman/movie-finder/assets/47774969/055e0d45-43ea-4927-bd79-306bea0ed5cd)
-4a53)
-
 
 ## Setup
 
-> **Note**: 
+### Important info
 To search for videos in the application, it is necessary to provide a private api key. To be able to use the application, create a file called .env in the root of the project and put the following in it.
 ```bash
 API_KEY=your_key
