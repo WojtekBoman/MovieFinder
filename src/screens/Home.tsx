@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, StyleSheet, TextInput, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SearchBarHeader from '../components/header/SearchBarHeader';
 import InfoWithImage from '../components/info/InfoWithImage';
@@ -38,6 +38,11 @@ const Home = () => {
   const navigation = useNavigation<HomeNavigationProp>();
   const [queryText, setQueryText] = useState('');
 
+  const clearResultsWithAnimation = () => {
+    animate();
+    setResults([]);
+  };
+
   const debounceCallback = () => {
     if (currentPage !== 1) {
       setCurrentPage(1);
@@ -49,7 +54,7 @@ const Home = () => {
     moviesListRef.current?.scrollToOffset({ offset: 0, animated: true });
   };
 
-  const { data, refetch, isFetching, isSuccess, isError } = useGetMoviesQuery(
+  const { data, refetch, isFetching, isSuccess } = useGetMoviesQuery(
     {
       queryText: debouncedQueryText,
       page: currentPage,
@@ -62,32 +67,6 @@ const Home = () => {
       }),
     }
   );
-
-  useEffect(() => {
-    if (selectedMovie) {
-      setSelectedMovie(null);
-      navigation.navigate('MovieDetails', {
-        movieId: selectedMovie.id,
-        queryText,
-        page: currentPage,
-      });
-    }
-  }, [selectedMovie]);
-
-  useEffect(() => {
-    if (!debouncedQueryText && !!results.length) {
-      animate();
-      setResults([]);
-    }
-  }, [debouncedQueryText]);
-
-  useEffect(() => {
-    if (isSuccess && !isFetching) {
-      animate();
-      setResults(data);
-      if (currentPage === 1 && results.length) scrollToTop();
-    }
-  }, [data, isSuccess, isFetching]);
 
   const handleOnPressListItem = (item: Movie) => {
     setSelectedMovie(item);
@@ -102,10 +81,30 @@ const Home = () => {
     refetch();
   };
 
-  const handleOnClearIconPress = () => {
-    animate();
-    setResults([]);
-  };
+  useEffect(() => {
+    if (selectedMovie) {
+      setSelectedMovie(null);
+      navigation.navigate('MovieDetails', {
+        movieId: selectedMovie.id,
+        queryText,
+        page: currentPage,
+      });
+    }
+  }, [selectedMovie]);
+
+  useEffect(() => {
+    if (!debouncedQueryText && !!results.length) {
+      clearResultsWithAnimation();
+    }
+  }, [debouncedQueryText]);
+
+  useEffect(() => {
+    if (isSuccess && !isFetching) {
+      animate();
+      setResults(data);
+      if (currentPage === 1 && results.length) scrollToTop();
+    }
+  }, [data, isSuccess, isFetching]);
 
   return (
     <SafeAreaView edges={['top', 'left', 'right']} style={styles.container}>
@@ -115,7 +114,7 @@ const Home = () => {
         headerTitle="Movie finder"
         searchBarValue={queryText}
         onChangeSearchBarValue={setQueryText}
-        onClearIconPress={handleOnClearIconPress}
+        onClearIconPress={clearResultsWithAnimation}
         searchBarPlaceholder="Enter the movie title"
         style={styles.header}
       />
@@ -124,7 +123,7 @@ const Home = () => {
         testID="movies-list"
         ListEmptyComponent={ListEmptyComponent}
         alwaysBounceVertical={false}
-        onRefresh={handleOnRefresh.bind(this, !!debouncedQueryText && !!data.length)}
+        onRefresh={handleOnRefresh.bind(this, !!debouncedQueryText)}
         refreshing={isFetching}
         contentContainerStyle={styles.list}
         listItemStyle={styles.listItem}

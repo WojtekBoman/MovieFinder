@@ -120,7 +120,7 @@ const MovieDetails = () => {
             label="Popularity"
             value={movie.popularity.toString()}
           />
-          {movieDetails && (
+          {movieDetails ? (
             <>
               <InfoChip
                 testID="info-chip-runtime"
@@ -141,7 +141,7 @@ const MovieDetails = () => {
                 value={getJoinedDataNames(movieDetails.production_countries)}
               />
             </>
-          )}
+          ) : null}
         </ScrollView>
       </View>
 

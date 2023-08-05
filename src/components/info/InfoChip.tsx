@@ -1,4 +1,4 @@
-import { ColorValue, StyleProp, ViewStyle } from 'react-native';
+import { ColorValue, StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import React from 'react';
 import { Chip, Text } from 'react-native-paper';
 import { Colors } from '../../theme/colors';
@@ -30,7 +30,7 @@ const InfoChip = ({
     <Chip
       icon={() => <Icon name={icon} size={iconSize} color={iconColor} />}
       mode="outlined"
-      style={[{ borderColor: Colors.primary, backgroundColor: Colors.background }, style]}
+      style={[styles.chip, style]}
     >
       <Text testID={testID}>{chipText}</Text>
     </Chip>
@@ -38,3 +38,10 @@ const InfoChip = ({
 };
 
 export default InfoChip;
+
+const styles = StyleSheet.create({
+  chip: {
+    backgroundColor: Colors.background,
+    borderColor: Colors.primary,
+  },
+});
