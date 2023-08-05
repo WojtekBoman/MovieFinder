@@ -1,12 +1,59 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Movie Finder
+A mobile application that allows you to search for movies by title.
 
-# Getting Started
+## Table of contents
+* [General info](#general-info)
+* [Technologies](#technologies)
+* [Screenshots](#screenshots)
+* [Setup](#setup)
 
-> **Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## General info
+Mobile application developed with React Native CLI and The Movie Database (https://api.themoviedb.org/3)
 
-## Step 1: Start the Metro Server
+## Technologies
+Project is created with:
+* React Native
+* Redux Toolkit
+* React Navigation
+* React Native Paper
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+## Screenshots
+
+### iOS
+
+![1](https://github.com/WojtekBoman/movie-finder/assets/47774969/0d7773d0-3d9d-42f0-b789-3b1fd4b2058d)
+![2](https://github.com/WojtekBoman/movie-finder/assets/47774969/b0549c55-db91-4097-9642-e4d2dfdc9c90)
+
+### Android
+
+![3](https://github.com/WojtekBoman/movie-finder/assets/47774969/bfc67b09-cd27-460c-a9d1-7e80e43d4a38)
+![4](https://github.com/WojtekBoman/movie-finder/assets/47774969/d6c8e9b7-d536-4983-8c5c-ecc1b0bb
+![5](https://github.com/WojtekBoman/movie-finder/assets/47774969/055e0d45-43ea-4927-bd79-306bea0ed5cd)
+4a53)
+
+
+## Setup
+
+> **Note**: 
+To search for videos in the application, it is necessary to provide a private api key. To be able to use the application, create a file called .env in the root of the project and put the following in it.
+```bash
+API_KEY=your_key
+```
+To obtain an api key, you must create an account at The Movie Database. After accessing the keys, place the API Read Access Token in the .env file in the format shown above.
+
+### Step 1: Install dependencies
+
+To install application dependencies, run the following command from the _root_ of your React Native project:
+
+```bash
+# using npm
+npm install
+
+# OR using Yarn
+yarn
+```
+
+### Step 2: Start the Metro Server
 
 To start Metro, run the following command from the _root_ of your React Native project:
 
@@ -18,7 +65,7 @@ npm start
 yarn start
 ```
 
-## Step 2: Start your Application
+### Step 2: Start your Application
 
 Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
 
@@ -46,36 +93,5 @@ If everything is set up _correctly_, you should see your new app running in your
 
 This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
 
-## Step 3: Modifying your App
+This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
-
-# Movie Finder
