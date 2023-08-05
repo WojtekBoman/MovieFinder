@@ -67,7 +67,7 @@ const MovieDetails = () => {
     }
   );
 
-  const { data: movieDetails, isFetching } = useGetMovieQuery(movieId);
+  const { data: movieDetails } = useGetMovieQuery(movieId);
 
   const insets = useSafeAreaInsets();
 

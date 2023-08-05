@@ -116,7 +116,7 @@ const Home = () => {
         searchBarValue={queryText}
         onChangeSearchBarValue={setQueryText}
         onClearIconPress={handleOnClearIconPress}
-        searchBarPlaceholder="Find your movie"
+        searchBarPlaceholder="Enter the movie title"
         style={styles.header}
       />
       <MoviesList
