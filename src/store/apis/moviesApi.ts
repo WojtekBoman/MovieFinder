@@ -3,6 +3,7 @@ import { Movie, MovieDetails } from '../../types/Movie';
 import Config from 'react-native-config';
 import { ListResponse } from '../../types/ListResponse';
 import { createEntityAdapter } from '@reduxjs/toolkit';
+import { MOVIE_DB_API_URL } from '../../constants/api';
 
 const moviesAdapter = createEntityAdapter({
   selectId: (item: Movie) => item.id,
@@ -13,7 +14,7 @@ const moviesSelector = moviesAdapter.getSelectors();
 export const moviesApi = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    baseUrl: Config.API_URL,
+    baseUrl: MOVIE_DB_API_URL,
     prepareHeaders(headers) {
       if (Config.API_KEY) headers.set('Authorization', `Bearer ${Config.API_KEY}`);
       return headers;
