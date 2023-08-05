@@ -19,10 +19,10 @@ Project is created with:
 
 ## Screenshots
 
-![1](https://github.com/WojtekBoman/movie-finder/assets/47774969/4209f568-f3b2-469a-9722-59e60b428559)
-![2](https://github.com/WojtekBoman/movie-finder/assets/47774969/969b859a-c8eb-4735-9f1d-87143a723562)
-![3](https://github.com/WojtekBoman/movie-finder/assets/47774969/73aa391b-f665-4742-82d5-3110a4dd034d)
-![4](https://github.com/WojtekBoman/movie-finder/assets/47774969/6a61eaff-a034-485a-9025-5ba2386ded27)
+![1](https://github.com/WojtekBoman/movie-finder/assets/47774969/f1f367d6-7961-4fc7-aacf-577be0f57c50)
+![2](https://github.com/WojtekBoman/movie-finder/assets/47774969/9d75fb74-13b4-495e-b044-d08dd24d806e)
+![3](https://github.com/WojtekBoman/movie-finder/assets/47774969/cdac1bb2-2357-44a5-82aa-cacf00d9a7fe)
+![4](https://github.com/WojtekBoman/movie-finder/assets/47774969/9e832a59-4a97-4fdf-88f8-a521be7e557d)
 
 ## Setup
 
