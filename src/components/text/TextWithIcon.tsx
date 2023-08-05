@@ -41,6 +41,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   text: {
-    marginLeft: spacing[2],
+    marginLeft: spacing[1],
   },
 });

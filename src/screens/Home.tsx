@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { FlatList, StyleSheet, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SearchBarHeader from '../components/header/SearchBarHeader';
 import InfoWithImage from '../components/info/InfoWithImage';
@@ -31,6 +31,7 @@ const ListEmptyComponent = () => {
 };
 
 const Home = () => {
+  const moviesListRef = useRef<FlatList>(null);
   const [results, setResults] = useState<Movie[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
@@ -38,9 +39,15 @@ const Home = () => {
   const [queryText, setQueryText] = useState('');
 
   const debounceCallback = () => {
-    if (currentPage !== 1) setCurrentPage(1);
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+    }
   };
   const debouncedQueryText = useDebounce<string>(queryText, debounceCallback);
+
+  const scrollToTop = () => {
+    moviesListRef.current?.scrollToOffset({ offset: 0, animated: true });
+  };
 
   const { data, refetch, isFetching, isSuccess, isError } = useGetMoviesQuery(
     {
@@ -78,6 +85,7 @@ const Home = () => {
     if (isSuccess && !isFetching) {
       animate();
       setResults(data);
+      if (currentPage === 1 && results.length) scrollToTop();
     }
   }, [data, isSuccess, isFetching]);
 
@@ -112,6 +120,7 @@ const Home = () => {
         style={styles.header}
       />
       <MoviesList
+        ref={moviesListRef}
         testID="movies-list"
         ListEmptyComponent={ListEmptyComponent}
         alwaysBounceVertical={false}
