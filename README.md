@@ -31,7 +31,7 @@ To search for videos in the application, it is necessary to provide a private ap
 ```bash
 API_KEY=your_key
 ```
-To obtain an api key, you must create an account at The Movie Database. After accessing the keys, place the API Read Access Token in the .env file in the format shown above.
+To obtain an api key, you must create an account at The Movie Database. After accessing the keys, place the API Key in the .env file in the format shown above.
 
 ### Step 1: Install dependencies
 
